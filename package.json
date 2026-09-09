@@ -1,561 +1,535 @@
-﻿{
-    "name":  "@tibame201020/queqiao-adb",
-    "version":  "0.1.2",
-    "private":  false,
-    "type":  "module",
-    "main":  "./dist/index.js",
-    "types":  "./dist/index.d.ts",
-    "exports":  {
-                    ".":  {
-                              "types":  "./dist/index.d.ts",
-                              "import":  "./dist/index.js",
-                              "default":  "./dist/index.js"
-                          }
-                },
-    "files":  [
-                  "dist/",
-                  "README.md",
-                  "LICENSE",
-                  "DISCLOSURE"
-              ],
-    "scripts":  {
-                    "clean":  "node -e \"require(\u0027node:fs\u0027).rmSync(\u0027dist\u0027,{recursive:true,force:true})\"",
-                    "build":  "npm run clean \u0026\u0026 tsc -p tsconfig.json",
-                    "typecheck":  "tsc -p tsconfig.json --noEmit",
-                    "test":  "vitest run src",
-                    "check":  "npm run typecheck \u0026\u0026 npm test \u0026\u0026 npm run build",
-                    "prepack":  "npm run check"
-                },
-    "dependencies":  {
-                         "sharp":  "^0.35.4",
-                         "zod":  "4.4.3"
-                     },
-    "devDependencies":  {
-                            "@tibame201020/queqiao":  "0.9.7",
-                            "@types/node":  "^24.10.0",
-                            "typescript":  "7.0.2",
-                            "vitest":  "4.1.10"
-                        },
-    "engines":  {
-                    "node":  "\u003e=22.19 \u003c25"
-                },
-    "license":  "MIT",
-    "publishConfig":  {
-                          "access":  "public"
-                      },
-    "queqiao":  {
-                    "apiVersion":  1,
-                    "module":  "./dist/index.js",
-                    "manifest":  {
-                                     "id":  "dev.queqiao.adb",
-                                     "version":  "0.1.2",
-                                     "displayName":  "Queqiao ADB",
-                                     "host":  {
-                                                  "kind":  "worker"
-                                              },
-                                     "ordering":  {
-                                                      "requires":  [
-
-                                                                   ],
-                                                      "before":  [
-
-                                                                 ],
-                                                      "after":  [
-
-                                                                ]
-                                                  },
-                                     "runtime":  {
-                                                     "processes":  {
-                                                                       "allow":  [
-                                                                                     "adb",
-                                                                                     "adb.exe"
-                                                                                 ]
-                                                                   },
-                                                     "outboundHttp":  {
-                                                                          "allowOrigins":  [
-
-                                                                                           ]
-                                                                      }
-                                                 },
-                                     "contributions":  [
-                                                           {
-                                                               "operation":  "register",
-                                                               "tool":  "adb_devices",
-                                                               "visibility":  "public",
-                                                               "title":  "List ADB devices",
-                                                               "description":  "List bounded Android devices visible to the Worker ADB daemon.",
-                                                               "inputSchema":  {
-                                                                                   "$schema":  "https://json-schema.org/draft/2020-12/schema",
-                                                                                   "type":  "object",
-                                                                                   "properties":  {
-                                                                                                      "workspaceId":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  1,
-                                                                                                                          "maxLength":  64
-                                                                                                                      }
-                                                                                                  },
-                                                                                   "required":  [
-                                                                                                    "workspaceId"
-                                                                                                ]
-                                                                               },
-                                                               "requiredCapabilities":  [
-
-                                                                                        ],
-                                                               "risk":  "read",
-                                                               "annotations":  {
-                                                                                   "readOnlyHint":  true,
-                                                                                   "destructiveHint":  false,
-                                                                                   "openWorldHint":  false,
-                                                                                   "idempotentHint":  true
-                                                                               }
-                                                           },
-                                                           {
-                                                               "operation":  "register",
-                                                               "tool":  "adb_device_info",
-                                                               "visibility":  "public",
-                                                               "title":  "Read ADB device info",
-                                                               "description":  "Read bounded model, Android version, display size, and density for one ADB device.",
-                                                               "inputSchema":  {
-                                                                                   "$schema":  "https://json-schema.org/draft/2020-12/schema",
-                                                                                   "type":  "object",
-                                                                                   "properties":  {
-                                                                                                      "workspaceId":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  1,
-                                                                                                                          "maxLength":  64
-                                                                                                                      },
-                                                                                                      "deviceId":  {
-                                                                                                                       "type":  "string",
-                                                                                                                       "minLength":  1,
-                                                                                                                       "maxLength":  128,
-                                                                                                                       "pattern":  "^[A-Za-z0-9._:-]+$"
-                                                                                                                   }
-                                                                                                  },
-                                                                                   "required":  [
-                                                                                                    "workspaceId",
-                                                                                                    "deviceId"
-                                                                                                ]
-                                                                               },
-                                                               "requiredCapabilities":  [
-
-                                                                                        ],
-                                                               "risk":  "read",
-                                                               "annotations":  {
-                                                                                   "readOnlyHint":  true,
-                                                                                   "destructiveHint":  false,
-                                                                                   "openWorldHint":  false,
-                                                                                   "idempotentHint":  true
-                                                                               }
-                                                           },
-                                                           {
-                                                               "operation":  "register",
-                                                               "tool":  "adb_packages",
-                                                               "visibility":  "public",
-                                                               "title":  "List Android packages",
-                                                               "description":  "List bounded installed Android package names on one ADB device.",
-                                                               "inputSchema":  {
-                                                                                   "$schema":  "https://json-schema.org/draft/2020-12/schema",
-                                                                                   "type":  "object",
-                                                                                   "properties":  {
-                                                                                                      "workspaceId":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  1,
-                                                                                                                          "maxLength":  64
-                                                                                                                      },
-                                                                                                      "deviceId":  {
-                                                                                                                       "type":  "string",
-                                                                                                                       "minLength":  1,
-                                                                                                                       "maxLength":  128,
-                                                                                                                       "pattern":  "^[A-Za-z0-9._:-]+$"
-                                                                                                                   },
-                                                                                                      "thirdPartyOnly":  {
-                                                                                                                             "default":  true,
-                                                                                                                             "type":  "boolean"
-                                                                                                                         },
-                                                                                                      "prefix":  {
-                                                                                                                     "default":  "",
-                                                                                                                     "type":  "string",
-                                                                                                                     "maxLength":  128,
-                                                                                                                     "pattern":  "^[A-Za-z0-9._]*$"
-                                                                                                                 }
-                                                                                                  },
-                                                                                   "required":  [
-                                                                                                    "workspaceId",
-                                                                                                    "deviceId"
-                                                                                                ]
-                                                                               },
-                                                               "requiredCapabilities":  [
-
-                                                                                        ],
-                                                               "risk":  "read",
-                                                               "annotations":  {
-                                                                                   "readOnlyHint":  true,
-                                                                                   "destructiveHint":  false,
-                                                                                   "openWorldHint":  false,
-                                                                                   "idempotentHint":  true
-                                                                               }
-                                                           },
-                                                           {
-                                                               "operation":  "register",
-                                                               "tool":  "adb_foreground_app",
-                                                               "visibility":  "public",
-                                                               "title":  "Read foreground Android app",
-                                                               "description":  "Read the current resumed Android package and activity from one ADB device.",
-                                                               "inputSchema":  {
-                                                                                   "$schema":  "https://json-schema.org/draft/2020-12/schema",
-                                                                                   "type":  "object",
-                                                                                   "properties":  {
-                                                                                                      "workspaceId":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  1,
-                                                                                                                          "maxLength":  64
-                                                                                                                      },
-                                                                                                      "deviceId":  {
-                                                                                                                       "type":  "string",
-                                                                                                                       "minLength":  1,
-                                                                                                                       "maxLength":  128,
-                                                                                                                       "pattern":  "^[A-Za-z0-9._:-]+$"
-                                                                                                                   }
-                                                                                                  },
-                                                                                   "required":  [
-                                                                                                    "workspaceId",
-                                                                                                    "deviceId"
-                                                                                                ]
-                                                                               },
-                                                               "requiredCapabilities":  [
-
-                                                                                        ],
-                                                               "risk":  "read",
-                                                               "annotations":  {
-                                                                                   "readOnlyHint":  true,
-                                                                                   "destructiveHint":  false,
-                                                                                   "openWorldHint":  false,
-                                                                                   "idempotentHint":  true
-                                                                               }
-                                                           },
-                                                           {
-                                                               "operation":  "register",
-                                                               "tool":  "adb_screenshot",
-                                                               "visibility":  "public",
-                                                               "title":  "Capture Android screenshot",
-                                                               "description":  "Capture a screenshot through ADB, create a bounded JPEG preview, and return base64 image data. The source PNG is deleted after conversion.",
-                                                               "inputSchema":  {
-                                                                                   "$schema":  "https://json-schema.org/draft/2020-12/schema",
-                                                                                   "type":  "object",
-                                                                                   "properties":  {
-                                                                                                      "workspaceId":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  1,
-                                                                                                                          "maxLength":  64
-                                                                                                                      },
-                                                                                                      "deviceId":  {
-                                                                                                                       "type":  "string",
-                                                                                                                       "minLength":  1,
-                                                                                                                       "maxLength":  128,
-                                                                                                                       "pattern":  "^[A-Za-z0-9._:-]+$"
-                                                                                                                   },
-                                                                                                      "maxWidth":  {
-                                                                                                                       "default":  640,
-                                                                                                                       "type":  "integer",
-                                                                                                                       "minimum":  320,
-                                                                                                                       "maximum":  1280
-                                                                                                                   },
-                                                                                                      "quality":  {
-                                                                                                                      "default":  70,
-                                                                                                                      "type":  "integer",
-                                                                                                                      "minimum":  40,
-                                                                                                                      "maximum":  90
-                                                                                                                  }
-                                                                                                  },
-                                                                                   "required":  [
-                                                                                                    "workspaceId",
-                                                                                                    "deviceId"
-                                                                                                ]
-                                                                               },
-                                                               "requiredCapabilities":  [
-                                                                                            "workspace:exec"
-                                                                                        ],
-                                                               "risk":  "read",
-                                                               "annotations":  {
-                                                                                   "readOnlyHint":  true,
-                                                                                   "destructiveHint":  false,
-                                                                                   "openWorldHint":  false,
-                                                                                   "idempotentHint":  true
-                                                                               }
-                                                           },
-                                                           {
-                                                               "operation":  "register",
-                                                               "tool":  "adb_app_start",
-                                                               "visibility":  "public",
-                                                               "title":  "Start Android app",
-                                                               "description":  "Start one installed Android package through the standard monkey launcher intent.",
-                                                               "inputSchema":  {
-                                                                                   "$schema":  "https://json-schema.org/draft/2020-12/schema",
-                                                                                   "type":  "object",
-                                                                                   "properties":  {
-                                                                                                      "workspaceId":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  1,
-                                                                                                                          "maxLength":  64
-                                                                                                                      },
-                                                                                                      "deviceId":  {
-                                                                                                                       "type":  "string",
-                                                                                                                       "minLength":  1,
-                                                                                                                       "maxLength":  128,
-                                                                                                                       "pattern":  "^[A-Za-z0-9._:-]+$"
-                                                                                                                   },
-                                                                                                      "packageName":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  3,
-                                                                                                                          "maxLength":  255,
-                                                                                                                          "pattern":  "^[A-Za-z0-9_]+(?:\\.[A-Za-z0-9_]+)+$"
-                                                                                                                      }
-                                                                                                  },
-                                                                                   "required":  [
-                                                                                                    "workspaceId",
-                                                                                                    "deviceId",
-                                                                                                    "packageName"
-                                                                                                ]
-                                                                               },
-                                                               "requiredCapabilities":  [
-
-                                                                                        ],
-                                                               "risk":  "execute",
-                                                               "annotations":  {
-                                                                                   "readOnlyHint":  false,
-                                                                                   "destructiveHint":  false,
-                                                                                   "openWorldHint":  false,
-                                                                                   "idempotentHint":  false
-                                                                               }
-                                                           },
-                                                           {
-                                                               "operation":  "register",
-                                                               "tool":  "adb_app_stop",
-                                                               "visibility":  "public",
-                                                               "title":  "Stop Android app",
-                                                               "description":  "Force-stop one Android package on the selected ADB device.",
-                                                               "inputSchema":  {
-                                                                                   "$schema":  "https://json-schema.org/draft/2020-12/schema",
-                                                                                   "type":  "object",
-                                                                                   "properties":  {
-                                                                                                      "workspaceId":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  1,
-                                                                                                                          "maxLength":  64
-                                                                                                                      },
-                                                                                                      "deviceId":  {
-                                                                                                                       "type":  "string",
-                                                                                                                       "minLength":  1,
-                                                                                                                       "maxLength":  128,
-                                                                                                                       "pattern":  "^[A-Za-z0-9._:-]+$"
-                                                                                                                   },
-                                                                                                      "packageName":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  3,
-                                                                                                                          "maxLength":  255,
-                                                                                                                          "pattern":  "^[A-Za-z0-9_]+(?:\\.[A-Za-z0-9_]+)+$"
-                                                                                                                      }
-                                                                                                  },
-                                                                                   "required":  [
-                                                                                                    "workspaceId",
-                                                                                                    "deviceId",
-                                                                                                    "packageName"
-                                                                                                ]
-                                                                               },
-                                                               "requiredCapabilities":  [
-
-                                                                                        ],
-                                                               "risk":  "execute",
-                                                               "annotations":  {
-                                                                                   "readOnlyHint":  false,
-                                                                                   "destructiveHint":  false,
-                                                                                   "openWorldHint":  false,
-                                                                                   "idempotentHint":  true
-                                                                               }
-                                                           },
-                                                           {
-                                                               "operation":  "register",
-                                                               "tool":  "adb_tap",
-                                                               "visibility":  "public",
-                                                               "title":  "Tap Android screen",
-                                                               "description":  "Send one bounded tap to the selected ADB device.",
-                                                               "inputSchema":  {
-                                                                                   "$schema":  "https://json-schema.org/draft/2020-12/schema",
-                                                                                   "type":  "object",
-                                                                                   "properties":  {
-                                                                                                      "workspaceId":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  1,
-                                                                                                                          "maxLength":  64
-                                                                                                                      },
-                                                                                                      "deviceId":  {
-                                                                                                                       "type":  "string",
-                                                                                                                       "minLength":  1,
-                                                                                                                       "maxLength":  128,
-                                                                                                                       "pattern":  "^[A-Za-z0-9._:-]+$"
-                                                                                                                   },
-                                                                                                      "x":  {
-                                                                                                                "type":  "integer",
-                                                                                                                "minimum":  0,
-                                                                                                                "maximum":  16384
-                                                                                                            },
-                                                                                                      "y":  {
-                                                                                                                "type":  "integer",
-                                                                                                                "minimum":  0,
-                                                                                                                "maximum":  16384
-                                                                                                            }
-                                                                                                  },
-                                                                                   "required":  [
-                                                                                                    "workspaceId",
-                                                                                                    "deviceId",
-                                                                                                    "x",
-                                                                                                    "y"
-                                                                                                ]
-                                                                               },
-                                                               "requiredCapabilities":  [
-
-                                                                                        ],
-                                                               "risk":  "execute",
-                                                               "annotations":  {
-                                                                                   "readOnlyHint":  false,
-                                                                                   "destructiveHint":  false,
-                                                                                   "openWorldHint":  false,
-                                                                                   "idempotentHint":  false
-                                                                               }
-                                                           },
-                                                           {
-                                                               "operation":  "register",
-                                                               "tool":  "adb_swipe",
-                                                               "visibility":  "public",
-                                                               "title":  "Swipe Android screen",
-                                                               "description":  "Send one bounded swipe gesture to the selected ADB device.",
-                                                               "inputSchema":  {
-                                                                                   "$schema":  "https://json-schema.org/draft/2020-12/schema",
-                                                                                   "type":  "object",
-                                                                                   "properties":  {
-                                                                                                      "workspaceId":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  1,
-                                                                                                                          "maxLength":  64
-                                                                                                                      },
-                                                                                                      "deviceId":  {
-                                                                                                                       "type":  "string",
-                                                                                                                       "minLength":  1,
-                                                                                                                       "maxLength":  128,
-                                                                                                                       "pattern":  "^[A-Za-z0-9._:-]+$"
-                                                                                                                   },
-                                                                                                      "x1":  {
-                                                                                                                 "type":  "integer",
-                                                                                                                 "minimum":  0,
-                                                                                                                 "maximum":  16384
-                                                                                                             },
-                                                                                                      "y1":  {
-                                                                                                                 "type":  "integer",
-                                                                                                                 "minimum":  0,
-                                                                                                                 "maximum":  16384
-                                                                                                             },
-                                                                                                      "x2":  {
-                                                                                                                 "type":  "integer",
-                                                                                                                 "minimum":  0,
-                                                                                                                 "maximum":  16384
-                                                                                                             },
-                                                                                                      "y2":  {
-                                                                                                                 "type":  "integer",
-                                                                                                                 "minimum":  0,
-                                                                                                                 "maximum":  16384
-                                                                                                             },
-                                                                                                      "durationMs":  {
-                                                                                                                         "default":  500,
-                                                                                                                         "type":  "integer",
-                                                                                                                         "minimum":  1,
-                                                                                                                         "maximum":  30000
-                                                                                                                     }
-                                                                                                  },
-                                                                                   "required":  [
-                                                                                                    "workspaceId",
-                                                                                                    "deviceId",
-                                                                                                    "x1",
-                                                                                                    "y1",
-                                                                                                    "x2",
-                                                                                                    "y2"
-                                                                                                ]
-                                                                               },
-                                                               "requiredCapabilities":  [
-
-                                                                                        ],
-                                                               "risk":  "execute",
-                                                               "annotations":  {
-                                                                                   "readOnlyHint":  false,
-                                                                                   "destructiveHint":  false,
-                                                                                   "openWorldHint":  false,
-                                                                                   "idempotentHint":  false
-                                                                               }
-                                                           },
-                                                           {
-                                                               "operation":  "register",
-                                                               "tool":  "adb_keyevent",
-                                                               "visibility":  "public",
-                                                               "title":  "Send Android key event",
-                                                               "description":  "Send one bounded numeric Android key event to the selected ADB device.",
-                                                               "inputSchema":  {
-                                                                                   "$schema":  "https://json-schema.org/draft/2020-12/schema",
-                                                                                   "type":  "object",
-                                                                                   "properties":  {
-                                                                                                      "workspaceId":  {
-                                                                                                                          "type":  "string",
-                                                                                                                          "minLength":  1,
-                                                                                                                          "maxLength":  64
-                                                                                                                      },
-                                                                                                      "deviceId":  {
-                                                                                                                       "type":  "string",
-                                                                                                                       "minLength":  1,
-                                                                                                                       "maxLength":  128,
-                                                                                                                       "pattern":  "^[A-Za-z0-9._:-]+$"
-                                                                                                                   },
-                                                                                                      "keyCode":  {
-                                                                                                                      "type":  "integer",
-                                                                                                                      "minimum":  0,
-                                                                                                                      "maximum":  1024
-                                                                                                                  }
-                                                                                                  },
-                                                                                   "required":  [
-                                                                                                    "workspaceId",
-                                                                                                    "deviceId",
-                                                                                                    "keyCode"
-                                                                                                ]
-                                                                               },
-                                                               "requiredCapabilities":  [
-
-                                                                                        ],
-                                                               "risk":  "execute",
-                                                               "annotations":  {
-                                                                                   "readOnlyHint":  false,
-                                                                                   "destructiveHint":  false,
-                                                                                   "openWorldHint":  false,
-                                                                                   "idempotentHint":  false
-                                                                               }
-                                                           }
-                                                       ]
-                                 }
-                },
-    "description":  "Bounded Android Debug Bridge extension for Queqiao Workers",
-    "repository":  {
-                       "type":  "git",
-                       "url":  "git+https://github.com/tibame201020/queqiao-adb.git"
-                   },
-    "homepage":  "https://github.com/tibame201020/queqiao-adb#readme",
-    "bugs":  {
-                 "url":  "https://github.com/tibame201020/queqiao-adb/issues"
-             },
-    "keywords":  [
-                     "queqiao",
-                     "adb",
-                     "android",
-                     "mumu",
-                     "automation",
-                     "extension"
-                 ],
-    "contentPolicy":  {
-                          "class":  "dual-use"
-                      }
+{
+  "name": "@tibame201020/queqiao-adb",
+  "version": "0.1.2",
+  "private": false,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE",
+    "DISCLOSURE"
+  ],
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run src",
+    "check": "npm run typecheck && npm test && npm run build",
+    "prepack": "npm run check"
+  },
+  "dependencies": {
+    "sharp": "^0.35.4",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@tibame201020/queqiao": "0.9.7",
+    "@types/node": "^24.10.0",
+    "typescript": "7.0.2",
+    "vitest": "4.1.10"
+  },
+  "engines": {
+    "node": ">=22.19 <25"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "queqiao": {
+    "apiVersion": 1,
+    "module": "./dist/index.js",
+    "manifest": {
+      "id": "dev.queqiao.adb",
+      "version": "0.1.2",
+      "displayName": "Queqiao ADB",
+      "host": {
+        "kind": "worker"
+      },
+      "ordering": {
+        "requires": [],
+        "before": [],
+        "after": []
+      },
+      "runtime": {
+        "processes": {
+          "allow": [
+            "adb",
+            "adb.exe"
+          ]
+        },
+        "outboundHttp": {
+          "allowOrigins": []
+        }
+      },
+      "contributions": [
+        {
+          "operation": "register",
+          "tool": "adb_devices",
+          "visibility": "public",
+          "title": "List ADB devices",
+          "description": "List bounded Android devices visible to the Worker ADB daemon.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              }
+            },
+            "required": [
+              "workspaceId"
+            ]
+          },
+          "requiredCapabilities": [],
+          "risk": "read",
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "openWorldHint": false,
+            "idempotentHint": true
+          }
+        },
+        {
+          "operation": "register",
+          "tool": "adb_device_info",
+          "visibility": "public",
+          "title": "Read ADB device info",
+          "description": "Read bounded model, Android version, display size, and density for one ADB device.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "deviceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9._:-]+$"
+              }
+            },
+            "required": [
+              "workspaceId",
+              "deviceId"
+            ]
+          },
+          "requiredCapabilities": [],
+          "risk": "read",
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "openWorldHint": false,
+            "idempotentHint": true
+          }
+        },
+        {
+          "operation": "register",
+          "tool": "adb_packages",
+          "visibility": "public",
+          "title": "List Android packages",
+          "description": "List bounded installed Android package names on one ADB device.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "deviceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9._:-]+$"
+              },
+              "thirdPartyOnly": {
+                "default": true,
+                "type": "boolean"
+              },
+              "prefix": {
+                "default": "",
+                "type": "string",
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9._]*$"
+              }
+            },
+            "required": [
+              "workspaceId",
+              "deviceId"
+            ]
+          },
+          "requiredCapabilities": [],
+          "risk": "read",
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "openWorldHint": false,
+            "idempotentHint": true
+          }
+        },
+        {
+          "operation": "register",
+          "tool": "adb_foreground_app",
+          "visibility": "public",
+          "title": "Read foreground Android app",
+          "description": "Read the current resumed Android package and activity from one ADB device.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "deviceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9._:-]+$"
+              }
+            },
+            "required": [
+              "workspaceId",
+              "deviceId"
+            ]
+          },
+          "requiredCapabilities": [],
+          "risk": "read",
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "openWorldHint": false,
+            "idempotentHint": true
+          }
+        },
+        {
+          "operation": "register",
+          "tool": "adb_screenshot",
+          "visibility": "public",
+          "title": "Capture Android screenshot",
+          "description": "Capture a screenshot through ADB, create a bounded JPEG preview, and return base64 image data. The source PNG is deleted after conversion.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "deviceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9._:-]+$"
+              },
+              "maxWidth": {
+                "default": 640,
+                "type": "integer",
+                "minimum": 320,
+                "maximum": 1280
+              },
+              "quality": {
+                "default": 70,
+                "type": "integer",
+                "minimum": 40,
+                "maximum": 90
+              }
+            },
+            "required": [
+              "workspaceId",
+              "deviceId"
+            ]
+          },
+          "requiredCapabilities": [
+            "workspace:exec"
+          ],
+          "risk": "read",
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "openWorldHint": false,
+            "idempotentHint": true
+          }
+        },
+        {
+          "operation": "register",
+          "tool": "adb_app_start",
+          "visibility": "public",
+          "title": "Start Android app",
+          "description": "Start one installed Android package through the standard monkey launcher intent.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "deviceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9._:-]+$"
+              },
+              "packageName": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 255,
+                "pattern": "^[A-Za-z0-9_]+(?:\\.[A-Za-z0-9_]+)+$"
+              }
+            },
+            "required": [
+              "workspaceId",
+              "deviceId",
+              "packageName"
+            ]
+          },
+          "requiredCapabilities": [],
+          "risk": "execute",
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "openWorldHint": false,
+            "idempotentHint": false
+          }
+        },
+        {
+          "operation": "register",
+          "tool": "adb_app_stop",
+          "visibility": "public",
+          "title": "Stop Android app",
+          "description": "Force-stop one Android package on the selected ADB device.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "deviceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9._:-]+$"
+              },
+              "packageName": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 255,
+                "pattern": "^[A-Za-z0-9_]+(?:\\.[A-Za-z0-9_]+)+$"
+              }
+            },
+            "required": [
+              "workspaceId",
+              "deviceId",
+              "packageName"
+            ]
+          },
+          "requiredCapabilities": [],
+          "risk": "execute",
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "openWorldHint": false,
+            "idempotentHint": true
+          }
+        },
+        {
+          "operation": "register",
+          "tool": "adb_tap",
+          "visibility": "public",
+          "title": "Tap Android screen",
+          "description": "Send one bounded tap to the selected ADB device.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "deviceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9._:-]+$"
+              },
+              "x": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              }
+            },
+            "required": [
+              "workspaceId",
+              "deviceId",
+              "x",
+              "y"
+            ]
+          },
+          "requiredCapabilities": [],
+          "risk": "execute",
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "openWorldHint": false,
+            "idempotentHint": false
+          }
+        },
+        {
+          "operation": "register",
+          "tool": "adb_swipe",
+          "visibility": "public",
+          "title": "Swipe Android screen",
+          "description": "Send one bounded swipe gesture to the selected ADB device.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "deviceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9._:-]+$"
+              },
+              "x1": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "y1": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "x2": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "y2": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "durationMs": {
+                "default": 500,
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 30000
+              }
+            },
+            "required": [
+              "workspaceId",
+              "deviceId",
+              "x1",
+              "y1",
+              "x2",
+              "y2"
+            ]
+          },
+          "requiredCapabilities": [],
+          "risk": "execute",
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "openWorldHint": false,
+            "idempotentHint": false
+          }
+        },
+        {
+          "operation": "register",
+          "tool": "adb_keyevent",
+          "visibility": "public",
+          "title": "Send Android key event",
+          "description": "Send one bounded numeric Android key event to the selected ADB device.",
+          "inputSchema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "workspaceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "deviceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[A-Za-z0-9._:-]+$"
+              },
+              "keyCode": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1024
+              }
+            },
+            "required": [
+              "workspaceId",
+              "deviceId",
+              "keyCode"
+            ]
+          },
+          "requiredCapabilities": [],
+          "risk": "execute",
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "openWorldHint": false,
+            "idempotentHint": false
+          }
+        }
+      ]
+    }
+  },
+  "description": "Bounded Android Debug Bridge extension for Queqiao Workers",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tibame201020/queqiao-adb.git"
+  },
+  "homepage": "https://github.com/tibame201020/queqiao-adb#readme",
+  "bugs": {
+    "url": "https://github.com/tibame201020/queqiao-adb/issues"
+  },
+  "keywords": [
+    "queqiao",
+    "adb",
+    "android",
+    "mumu",
+    "automation",
+    "extension"
+  ],
+  "contentPolicy": {
+    "class": "dual-use"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tibame201020/queqiao-adb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "type": "module",
   "main": "./dist/index.js",
@@ -15,7 +15,8 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "DISCLOSURE"
   ],
   "scripts": {
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
@@ -47,7 +48,7 @@
     "module": "./dist/index.js",
     "manifest": {
       "id": "dev.queqiao.adb",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "Queqiao ADB",
       "host": {
         "kind": "worker"
@@ -527,5 +528,8 @@
     "mumu",
     "automation",
     "extension"
-  ]
+  ],
+  "contentPolicy": {
+    "class": "dual-use"
+  }
 }

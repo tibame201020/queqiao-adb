@@ -1,0 +1,9 @@
+﻿DUAL-USE CONTENT DISCLOSURE
+
+@tibame201020/queqiao-adb is a bounded Android Debug Bridge extension for Queqiao Workers.
+
+It can inspect connected Android devices and perform explicitly scoped device automation actions such as launching or stopping an application, tapping, swiping, sending key events, and capturing bounded screenshot previews. These capabilities can be security-relevant when used against devices or accounts without authorization.
+
+The intended use is legitimate automation and testing on Android devices, emulators, applications, and accounts that the operator owns or is authorized to control. The extension deliberately does not expose arbitrary host-shell execution, arbitrary adb shell commands, package installation/uninstallation, filesystem traversal, anti-cheat bypass, credential extraction, or security-control circumvention.
+
+Operators are responsible for obtaining authorization and complying with applicable application, game, platform, and service terms.

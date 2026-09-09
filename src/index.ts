@@ -6,7 +6,7 @@ import { z } from "zod";
 import type { ExtensionManifestConfig, QueqiaoExtension, ToolDefinition, WorkerExtensionContext } from "@tibame201020/queqiao/extension";
 
 const EXTENSION_ID = "dev.queqiao.adb";
-const EXTENSION_VERSION = "0.1.0";
+const EXTENSION_VERSION = "0.1.1";
 const ADB_TIMEOUT_MS = 15_000;
 const SCREENSHOT_TIMEOUT_MS = 30_000;
 const MAX_SOURCE_SCREENSHOT_BYTES = 16 * 1024 * 1024;

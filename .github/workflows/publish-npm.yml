@@ -74,6 +74,6 @@ jobs:
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
-      - name: Publish public package with trusted publishing
+      - name: Stage public package with trusted publishing
         if: steps.registry.outputs.exists != 'true'
-        run: npm publish --provenance --access public
+        run: npm stage publish --provenance --access public

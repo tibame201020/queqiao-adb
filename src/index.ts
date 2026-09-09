@@ -1,4 +1,4 @@
-﻿import { randomUUID } from "node:crypto";
+import { randomUUID } from "node:crypto";
 import { readFile, rm } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
@@ -12,13 +12,7 @@ const SCREENSHOT_TIMEOUT_MS = 30_000;
 const MAX_SOURCE_SCREENSHOT_BYTES = 16 * 1024 * 1024;
 const MAX_PREVIEW_BYTES = 192 * 1024;
 
-export const ADB_EXECUTABLES = [
-  "adb",
-  "adb.exe",
-  "C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\12.0\\shell\\adb.exe",
-  "C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\15.0\\shell\\adb.exe",
-  "C:\\Program Files\\Netease\\MuMuPlayer\\nx_main\\adb.exe",
-] as const;
+export const ADB_EXECUTABLES = ["adb", "adb.exe"] as const;
 
 const workspaceSchema = z.string().min(1).max(64);
 const deviceIdSchema = z.string().min(1).max(128).regex(/^[A-Za-z0-9._:-]+$/, "invalid ADB device id");

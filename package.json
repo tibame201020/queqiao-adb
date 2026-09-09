@@ -61,10 +61,7 @@
         "processes": {
           "allow": [
             "adb",
-            "adb.exe",
-            "C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\12.0\\shell\\adb.exe",
-            "C:\\Program Files\\Netease\\MuMuPlayer\\nx_device\\15.0\\shell\\adb.exe",
-            "C:\\Program Files\\Netease\\MuMuPlayer\\nx_main\\adb.exe"
+            "adb.exe"
           ]
         },
         "outboundHttp": {

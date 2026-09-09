@@ -1,4 +1,4 @@
-﻿import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { ADB_EXECUTABLES, adbDefinitions, createScreenshotPreview } from "./index.js";
 import sharp from "sharp";
 
@@ -23,22 +23,9 @@ function successfulSession(stdout: string) {
 }
 
 describe("ADB runtime hardening", () => {
-  it("allows only adb executable candidates and known MuMu paths", () => {
-    expect(ADB_EXECUTABLES).toContain("adb");
-    expect(ADB_EXECUTABLES).toContain("adb.exe");
-    expect(ADB_EXECUTABLES.some((x) => x.includes("MuMuPlayer"))).toBe(true);
-    expect(ADB_EXECUTABLES.some((x) => /powershell|cmd\.exe|bash|sh$/i.test(x))).toBe(false);
-  });
-
-  it("falls back to a declared MuMu adb path when PATH adb is unavailable", async () => {
-    const open = vi.fn()
-      .mockRejectedValueOnce(new Error("spawn adb ENOENT"))
-      .mockRejectedValueOnce(new Error("spawn adb.exe ENOENT"))
-      .mockResolvedValue(successfulSession("List of devices attached\nemulator-5554\tdevice\n"));
-    const context = { workspaceId: "w", capabilities: {} as never, runtime: { stdio: { open }, http: {} as never } };
-    const result = await definition("adb_devices").execute({ workspaceId: "w" }, context as never) as any;
-    expect(result.devices[0].id).toBe("emulator-5554");
-    expect(open.mock.calls[2][0].executable).toBe(ADB_EXECUTABLES[2]);
+  it("allows only portable adb executable names", () => {
+    expect(ADB_EXECUTABLES).toEqual(["adb", "adb.exe"]);
+    expect(ADB_EXECUTABLES.every((x) => /^[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$/.test(x))).toBe(true);
   });
 
   it("creates a bounded JPEG preview from a multi-megabyte PNG", async () => {

@@ -1,26 +1,16 @@
 # Queqiao ADB
 
-Queqiao Worker 的受限 ADB extension。提供 Android 裝置探索、App lifecycle、截圖與基本輸入，不暴露任意 `adb shell` 或主機 shell。
-
+Queqiao Worker ????ADB extension??靘?Android 鋆蔭?Ｙ揣?pp lifecycle????箸頛詨嚗??湧隞餅? `adb shell` ?蜓璈?shell??
 [English](./README.md)
 
-## 能力
+## ?賢?
 
-- `adb_devices`：列出 ADB 裝置。
-- `adb_device_info`：讀取型號、Android 版本、解析度與 density。
-- `adb_packages`：列出已安裝 package，可依 prefix 過濾。
-- `adb_foreground_app`：讀取目前前景 package/activity。
-- `adb_screenshot`：裝置端擷取 PNG、pull 到授權 Workspace、轉成 bounded JPEG preview，最後清除暫存檔。
-- `adb_app_start` / `adb_app_stop`：啟動或停止經 schema 驗證的 package。
-- `adb_tap` / `adb_swipe` / `adb_keyevent`：受限的輸入操作。
+- `adb_devices`嚗???ADB 鋆蔭??- `adb_device_info`嚗????ndroid ??圾?漲??density??- `adb_packages`嚗??箏歇摰? package嚗靘?prefix ?蕪??- `adb_foreground_app`嚗??????package/activity??- `adb_screenshot`嚗?蝵桃垢?瑕? PNG?ull ?唳?甈?Workspace????bounded JPEG preview嚗?敺??斗摮???- `adb_app_start` / `adb_app_stop`嚗????迫蝬?schema 撽???package??- `adb_tap` / `adb_swipe` / `adb_keyevent`嚗???頛詨????
+## 摰??
 
-## 安全邊界
-
-Extension 不接受任意 shell 字串。ADB 指令由經驗證的 argv 組成，交由 Worker-owned extension runtime 以 `shell: false` 執行。Runtime manifest 僅允許 `adb`、`adb.exe` 與已知 MuMu ADB executable 路徑。
-
-第一版 screenshot 回傳壓縮後 JPEG preview，原因是 Queqiao 0.9.7 extension stdio 有 bounded output；待 extension SDK 的原生 binary/media primitive 可用後，可直接替換 transport，不需要改上層 ADB capability。
-
-## 開發
+Extension 銝?遙??shell 摮葡?DB ?誘?梁?撽???argv 蝯?嚗漱??Worker-owned extension runtime 隞?`shell: false` ?瑁??untime manifest ??閮?`adb`?adb.exe` ?歇??MuMu ADB executable 頝臬???
+蝚砌???screenshot ?憯葬敺?JPEG preview嚗?? Queqiao 0.9.7 extension stdio ??bounded output嚗? extension SDK ????binary/media primitive ?舐敺??舐?交??transport嚗??閬銝惜 ADB capability??
+## ?
 
 ```powershell
 npm ci
@@ -28,8 +18,7 @@ npm run check
 npm pack --dry-run
 ```
 
-需求：Node.js 22.19–24、Queqiao 0.9.7 extension API。
-
+?瘙?Node.js 22.19??4?ueqiao 0.9.7 extension API??
 ## License
 
 MIT

@@ -6,7 +6,7 @@ import { z } from "zod";
 import type { ExtensionManifestConfig, QueqiaoExtension, ToolDefinition, WorkerExtensionContext } from "@tibame201020/queqiao/extension";
 
 const EXTENSION_ID = "dev.queqiao.adb";
-const EXTENSION_VERSION = "0.1.1";
+const EXTENSION_VERSION = "0.1.2";
 const ADB_TIMEOUT_MS = 15_000;
 const SCREENSHOT_TIMEOUT_MS = 30_000;
 const MAX_SOURCE_SCREENSHOT_BYTES = 16 * 1024 * 1024;
@@ -120,6 +120,7 @@ function manifestContribution(definition: ToolDefinition<AdbToolContext>) { retu
 export const ADB_EXTENSION_MANIFEST: ExtensionManifestConfig = { id: EXTENSION_ID, version: EXTENSION_VERSION, displayName: "Queqiao ADB", host: { kind: "worker" }, ordering: { requires: [], before: [], after: [] }, runtime: { processes: { allow: [...ADB_EXECUTABLES] }, outboundHttp: { allowOrigins: [] } }, contributions: adbDefinitions.map(manifestContribution) };
 export const queqiaoExtension: QueqiaoExtension<AdbToolContext> = { manifest: { id: EXTENSION_ID, version: EXTENSION_VERSION, displayName: "Queqiao ADB", supportedEnvironments: ["windows", "linux", "darwin"] }, activate(api) { for (const definition of adbDefinitions) api.registerTool(definition); } };
 export default queqiaoExtension;
+
 
 
 
